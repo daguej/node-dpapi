@@ -4,31 +4,36 @@
 #include <dpapi.h>
 #include <functional>
 
+v8::Local<v8::String> CreateUtf8String(v8::Isolate* isolate, char* strData)
+{
+	return v8::String::NewFromUtf8(isolate, strData, v8::NewStringType::kNormal).ToLocalChecked();
+}
+
 void ProtectDataCommon(bool protect, Nan::NAN_METHOD_ARGS_TYPE info)
 {
 	v8::Isolate* isolate = info.GetIsolate();
 
 	if (info.Length() != 3) {
 		isolate->ThrowException(v8::Exception::RangeError(
-			v8::String::NewFromUtf8(isolate, "3 arguments are required")));
+			CreateUtf8String(isolate, "3 arguments are required")));
 	}
 
 	if (info[0]->IsNullOrUndefined() || !info[0]->IsUint8Array())
 	{
 		isolate->ThrowException(v8::Exception::TypeError(
-			v8::String::NewFromUtf8(isolate, "First argument, data, must be a valid Uint8Array")));
+			CreateUtf8String(isolate, "First argument, data, must be a valid Uint8Array")));
 	}
 
 	if (!info[1]->IsNull() && !info[1]->IsUint8Array())
 	{
 		isolate->ThrowException(v8::Exception::TypeError(
-			v8::String::NewFromUtf8(isolate, "Second argument, optionalEntropy, must be null or an ArrayBuffer")));
+			CreateUtf8String(isolate, "Second argument, optionalEntropy, must be null or an ArrayBuffer")));
 	}
 
 	if (info[2]->IsNullOrUndefined() || !info[2]->IsString())
 	{
 		isolate->ThrowException(v8::Exception::TypeError(
-			v8::String::NewFromUtf8(isolate, "Third argument, scope, must be a string")));
+			CreateUtf8String(isolate, "Third argument, scope, must be a string")));
 	}
 
 	DWORD flags = 0;
@@ -90,7 +95,7 @@ void ProtectDataCommon(bool protect, Nan::NAN_METHOD_ARGS_TYPE info)
 	{
 		DWORD errorCode = GetLastError();
 		isolate->ThrowException(v8::Exception::Error(
-			v8::String::NewFromUtf8(isolate, "Decryption failed. TODO: Error code")));
+			CreateUtf8String(isolate, "Decryption failed. TODO: Error code")));
 
 		return;
 	}
