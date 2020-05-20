@@ -132,4 +132,8 @@ NAN_MODULE_INIT(init)
 		Nan::GetFunction(Nan::New<v8::FunctionTemplate>(unprotectData)).ToLocalChecked());
 }
 
+#if NODE_MAJOR_VERSION >= 10
+NAN_MODULE_WORKER_ENABLED(binding, init)
+#else
 NODE_MODULE(binding, init)
+#endif
