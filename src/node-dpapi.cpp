@@ -10,7 +10,7 @@ void ProtectDataCommon(bool protect, Nan::NAN_METHOD_ARGS_TYPE info)
 
 	if (info.Length() != 3) {
 		isolate->ThrowException(v8::Exception::RangeError(
-			v8::String::NewFromUtf8(isolate, "3 arguments are required")));
+			v8::String::NewFromUtf8(isolate, "3 arguments are required").ToLocalChecked()));
 	}
 
 	if (info[0]->IsNullOrUndefined() || !info[0]->IsUint8Array())
@@ -102,7 +102,7 @@ void ProtectDataCommon(bool protect, Nan::NAN_METHOD_ARGS_TYPE info)
 	info.GetReturnValue().Set(returnBuffer);
 }
 
-// public unsafe static byte[] Protect(byte[] userData, byte[] optionalEntropy, DataProtectionScope scope)
+// public unsafe static byte[] Protect(byte[] userData, byte[] optionalEntropy, DataProtectionScope scope) 
 NAN_METHOD(protectData)
 {
 	ProtectDataCommon(true, info);
