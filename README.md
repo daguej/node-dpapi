@@ -31,5 +31,9 @@ Q: Does this work on all platforms?
 
 A: Currently it just works on Windows
 
+Q: This isn't working with Electorn, and I'm getting errors
+
+A: Take look at this [documentation](https://www.electronjs.org/docs/tutorial/using-native-node-modules) Use `electron-rebuild` to compile against the right version
+
 ## Publish note
 This package originates from [bradhugh/node-dpapi](https://github.com/bradhugh/node-dpapi), but he [did not publish it to npm](https://github.com/bradhugh/node-dpapi/issues/1).  [I](https://github.com/daguej) have taken the liberty of publishing this package so it may be used as a dependency.
