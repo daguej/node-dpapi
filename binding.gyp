@@ -7,8 +7,12 @@
         "<!(node -e \"require('nan')\")",
         "include"
       ],
-      "libraries": [
-        "-lcrypt32.lib"
+      'conditions': [
+        ['OS == "win"', {
+          "libraries": [
+            "-lcrypt32.lib"
+          ]
+        }]
       ]
     }
   ]
