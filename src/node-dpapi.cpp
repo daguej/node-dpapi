@@ -1,13 +1,16 @@
 #include <node.h>
 #include <nan.h>
-#include <Windows.h>
-#include <dpapi.h>
 #include <functional>
 
 v8::Local<v8::String> CreateUtf8String(v8::Isolate* isolate, char* strData)
 {
 	return v8::String::NewFromUtf8(isolate, strData, v8::NewStringType::kNormal).ToLocalChecked();
 }
+
+#ifdef _WIN32
+
+#include <Windows.h>
+#include <dpapi.h>
 
 void ProtectDataCommon(bool protect, Nan::NAN_METHOD_ARGS_TYPE info)
 {
@@ -106,6 +109,14 @@ void ProtectDataCommon(bool protect, Nan::NAN_METHOD_ARGS_TYPE info)
 
 	info.GetReturnValue().Set(returnBuffer);
 }
+
+#else
+
+void ProtectDataCommon(bool protect, Nan::NAN_METHOD_ARGS_TYPE info)
+{
+}
+
+#endif
 
 // public unsafe static byte[] Protect(byte[] userData, byte[] optionalEntropy, DataProtectionScope scope) 
 NAN_METHOD(protectData)
